@@ -46,6 +46,19 @@ class Rectangle(Point,Size):
     def ToString(self):
         return Point.ToString(self) + "," + Size.ToString(self)
         
+class Ellipse(Point):
+    h_radius = 0.0  # Horizontal radius
+    v_radius = 0.0  # Vertical radius
+
+    def __init__(self, x, y, h_radius, v_radius):
+        super().__init__(x,y)
+        self.h_radius = h_radius
+        self.v_radius = v_radius
+
+    def ToString(self):
+        return super().ToString() + \
+                ",{H_RADIUS=" + str(self.h_radius) + \
+                ",V_RADIUS="  + str(self.v_radius) + "}"
 
 p = Point(10,20)
 print(p.ToString())
@@ -58,3 +71,6 @@ print(c.ToString())
 
 r = Rectangle(200,250,40,50)
 print(r.ToString())
+
+e = Ellipse(100,100,75,50)
+print(e.ToString())
