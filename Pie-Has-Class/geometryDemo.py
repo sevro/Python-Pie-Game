@@ -41,10 +41,15 @@ class Rectangle(Point,Size):
     def __init__(self, x, y, width, height):
         Point.__init__(self,x,y)
         Size.__init__(self,width,height)
+        self.CalcArea()
         print("Rectangle constructor")
 
+    def CalcArea(self):
+        self.area = self.width * self.height
+
     def ToString(self):
-        return Point.ToString(self) + "," + Size.ToString(self)
+        return Point.ToString(self) + "," + Size.ToString(self) + \
+                "\nAREA=" + str(self.area)
         
 class Ellipse(Point):
     h_radius = 0.0  # Horizontal radius
