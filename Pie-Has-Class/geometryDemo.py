@@ -1,4 +1,5 @@
 # OOP Geometry Demo
+from math import pi
 
 class Point():
     x = 0.0
@@ -31,11 +32,16 @@ class Circle(Point):
     def __init__(self, x, y, radius):
         super().__init__(x,y)
         self.radius = radius
+        self.CalcCircum()
         print("Circle constructor")
+
+    def CalcCircum(self):
+        self.circum = 2 * pi * self.radius ** 2
 
     def ToString(self):
         return super().ToString() + \
-               ",{RADIUS=" + str(self.radius) + "}"
+               ",{RADIUS=" + str(self.radius) + "}" + \
+               "\nCIRCUM=" + str(self.circum)
 
 class Rectangle(Point,Size):
     def __init__(self, x, y, width, height):
