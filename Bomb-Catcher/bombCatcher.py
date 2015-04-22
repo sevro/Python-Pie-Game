@@ -7,6 +7,15 @@ from pygame.locals import *
 def print_text(font, x, y, text, color=(255,255,255)):
     imgText = font.render(text, True, color)
     screen.blit(imgText, (x,y))
+
+def boom():
+    seconds = 1
+    clock_start = time.clock()
+    current = time.clock() - clock_start
+    print_text(font2, 225, 250, "BOOM!")
+    pygame.display.update()
+    while seconds >= current:
+        current = time.clock() - clock_start
     
 
 #main program begins
@@ -14,11 +23,13 @@ pygame.init()
 screen = pygame.display.set_mode((600,500))
 pygame.display.set_caption("Bomb Catching Game")
 font1 = pygame.font.Font(None, 24)
+font2 = pygame.font.Font(None, 50)
 pygame.mouse.set_visible(False)
 white = 255,255,255
 red = 220, 50, 50
 yellow = 230,230,50
 black = 0,0,0
+miss = False
 
 lives = 3
 score = 0
@@ -61,6 +72,7 @@ while True:
 
         #has the player missed the bomb?
         if bomb_y > 500:
+            miss = True
             bomb_x = random.randint(0, 500)
             bomb_y = -50
             lives -= 1
@@ -94,7 +106,8 @@ while True:
     #print score
     print_text(font1, 500, 0, "SCORE: " + str(score))
     
-    pygame.display.update()
-
-    
-
+    if miss == True:
+        boom()
+        miss = False
+    else:
+        pygame.display.update()
