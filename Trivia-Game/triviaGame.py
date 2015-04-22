@@ -69,6 +69,12 @@ class Trivia(object):
                 self.failed = True
                 self.wronganswer = number
 
+    def play_again(self,char):
+        if char == 'y':
+            self.current = 0
+        if char == 'n':
+            sys.exit()
+
     def next_question(self):
         if self.scored or self.failed:
             self.scored = False
@@ -77,8 +83,14 @@ class Trivia(object):
             self.colors = [white,white,white,white]
             self.current += 6
             if self.current >= self.total:
-                self.current = 0
+                return True
+            else:
+                return False
 
+    def game_over(self):
+        screen.fill((white))
+        print_text(font1, 100, 100, "GAME OVER", black)
+        print_text(font2, 20, 240, "Would you like to play again? (y/n)", black)
 
 def print_text(font, x, y, text, color=(255,255,255), shadow=True):
     if shadow:
@@ -94,12 +106,14 @@ screen = pygame.display.set_mode((600,500))
 pygame.display.set_caption("The Trivia Game")
 font1 = pygame.font.Font(None, 40)
 font2 = pygame.font.Font(None, 24)
+black = 0,0,0
 white = 255,255,255
 cyan = 0,255,255
 yellow = 255,255,0
 purple = 255,0,255
 green = 0,255,0
 red = 255,0,0
+gameOver = False
 
 #load the trivia data file
 trivia = Trivia("trivia_data.txt")
@@ -121,14 +135,19 @@ while True:
             elif event.key == pygame.K_4:
                 trivia.handle_input(4)
             elif event.key == pygame.K_RETURN:
-                trivia.next_question()
+                gameOver = trivia.next_question()
+            if gameOver:
+                trivia.game_over()
+                trivia.current = 0
+                if event.key == pygame.K_y:
+                    gameOver = False
+                elif event.key == pygame.K_n:
+                    sys.exit()
 
-    #clear the screen
-    screen.fill((0,0,200))
-
-    #display trivia data
-    trivia.show_question()
+            
+    if not gameOver:
+        screen.fill((0,0,200))
+        trivia.show_question()
     
     #update the display
     pygame.display.update()
-    
