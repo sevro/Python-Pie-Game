@@ -5,7 +5,7 @@ import sys, random, math, pygame
 from pygame.locals import *
 from datetime import datetime, date, time
 
-def print_text(font, x, y, text, color=(255,255,255)):
+def print_text(font, x, y, text, color=(82,217,192)):
     imgText = font.render(text, True, color)
     screen.blit(imgText, (x,y))
 
@@ -16,11 +16,13 @@ def wrap_angle(angle):
 pygame.init()
 screen = pygame.display.set_mode((600,500))
 pygame.display.set_caption("Analog Clock Demo")
-font = pygame.font.Font(None, 36)
+font  = pygame.font.Font(None, 36)
+font2 = pygame.font.Font(None, 45)
 orange = 220,180,0
 white = 255,255,255
 yellow = 255,255,0
 pink = 255,100,100
+alt_font = (3,6,9,12)
 
 pos_x = 300
 pos_y = 250
@@ -36,17 +38,20 @@ while True:
     if keys[K_ESCAPE]:
         sys.exit()
 
-    screen.fill((0,0,100))
+    screen.fill((60,82,78))
 
     #draw one step around the circle
-    pygame.draw.circle(screen, white, (pos_x, pos_y), radius, 6)
+    pygame.draw.circle(screen, (75,166,149), (pos_x, pos_y), radius, 6)
 
     #draw the clock numbers 1-12
     for n in range(1,13):
         angle = math.radians( n * (360/12) - 90 )
         x = math.cos( angle ) * (radius-20)-10
         y = math.sin( angle ) * (radius-20)-10
-        print_text(font, pos_x+x, pos_y+y, str(n))
+        if n not in alt_font:
+            print_text(font, pos_x+x, pos_y+y, str(n))
+        else:
+            print_text(font2, pos_x+x, pos_y+y, str(n))
 
     #get the time of day
     today = datetime.today()
@@ -60,7 +65,7 @@ while True:
     hour_x = math.cos( hour_angle ) * (radius-80)
     hour_y = math.sin( hour_angle ) * (radius-80)
     target = (pos_x+hour_x,pos_y+hour_y)
-    pygame.draw.line(screen, pink, (pos_x,pos_y), target, 25)
+    pygame.draw.line(screen, (70,120,101), (pos_x,pos_y), target, 25)
 
     #draw the minutes hand
     min_angle = wrap_angle( minutes * (360/60) - 90 )
@@ -68,7 +73,7 @@ while True:
     min_x = math.cos( min_angle ) * (radius-60)
     min_y = math.sin( min_angle ) * (radius-60)
     target = (pos_x+min_x,pos_y+min_y)
-    pygame.draw.line(screen, orange, (pos_x,pos_y), target, 12)
+    pygame.draw.line(screen, (70,120,111), (pos_x,pos_y), target, 12)
 
     #draw the seconds hand
     sec_angle = wrap_angle( seconds * (360/60) - 90 )
@@ -76,10 +81,10 @@ while True:
     sec_x = math.cos( sec_angle ) * (radius-40)
     sec_y = math.sin( sec_angle ) * (radius-40)
     target = (pos_x+sec_x,pos_y+sec_y)
-    pygame.draw.line(screen, yellow, (pos_x,pos_y), target, 6)
+    pygame.draw.line(screen, (70,120,120), (pos_x,pos_y), target, 6)
 
     #cover the center
-    pygame.draw.circle(screen, white, (pos_x,pos_y), 20)
+    pygame.draw.circle(screen, (75,166,149), (pos_x,pos_y), 20)
 
     print_text(font, 0, 0, str(hours) + ":" + str(minutes) + ":" + str(seconds))
     
