@@ -26,6 +26,15 @@ def rand_red():
         shade1 = 255
     return (shade1, shade2, shade3)
 
+def choose_lr(bomb_x):
+    """ Chooses to move the bomb left or right """
+    if bomb_x > 100 and bomb_x < 500:
+        return random.choice((True,False))
+    elif bomb_x < 100:
+        return False
+    else:
+        return True
+
 
     
 
@@ -54,6 +63,8 @@ pos_y = 460
 bomb_x = random.randint(0,500)
 bomb_y = -50
 vel_y = 0.7
+vel_x = 0.1
+left = choose_lr(bomb_x) # decides if vel_x is + or -
 
 #repeating loop
 while True:
@@ -80,11 +91,16 @@ while True:
     else:
         #move the bomb
         bomb_y += vel_y
+        if left:
+            bomb_x += -vel_x
+        else:
+            bomb_x += vel_x
 
         #has the player missed the bomb?
         if bomb_y > 500:
             miss = True
             bomb_x = random.randint(0, 500)
+            left = choose_lr(bomb_x) # decides if vel_x is + or -
             bomb_y = -50
             lives -= 1
             if lives == 0:
@@ -95,11 +111,12 @@ while True:
             if bomb_x > pos_x and bomb_x < pos_x + 120:
                 score += 10
                 bomb_x = random.randint(0, 500)
+                left =  choose_lr(bomb_x) # decides if vel_x is + or -
                 bomb_y = -50
         
         #draw the bomb
-        pygame.draw.circle(screen, black, (bomb_x-4,int(bomb_y)-4), 30, 0)
-        pygame.draw.circle(screen, yellow, (bomb_x,int(bomb_y)), 30, 0)
+        pygame.draw.circle(screen, black, (int(bomb_x-4),int(bomb_y)-4), 30, 0)
+        pygame.draw.circle(screen, yellow, (int(bomb_x),int(bomb_y)), 30, 0)
 
         #draw bomb fuse
         color       = rand_red()
