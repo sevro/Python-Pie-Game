@@ -14,6 +14,7 @@ pos_x = 300
 pos_y = 250
 radius = 200
 angle = 360
+shape = 0
 
 #repeating loop
 while True:
@@ -38,8 +39,15 @@ while True:
     y = math.sin( math.radians(angle) ) * radius
 
     #draw one step around the circle
-    pos = ( int(pos_x + x), int(pos_y + y) )
-    pygame.draw.circle(screen, color, pos, 10, 0)
+    pos  = ( int(pos_x + x), int(pos_y + y) )
+    if shape == 0:
+        pygame.draw.circle(screen, color, pos, 10, 1)
+    elif shape == 1:
+        rectPos = (pos, (10, 10))
+        pygame.draw.rect(screen, color, rectPos, 1)
+    shape += 1
+    if shape > 1:
+        shape = 0
 
     
     pygame.display.update()
