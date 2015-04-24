@@ -1,7 +1,7 @@
 # Bomb Catcher Game
 # Chapter 4
 
-import sys, random, time, pygame
+import sys, random, time, pygame, math
 from pygame.locals import *
 
 def print_text(font, x, y, text, color=(255,255,255)):
@@ -16,6 +16,17 @@ def boom():
     pygame.display.update()
     while seconds >= current:
         current = time.clock() - clock_start
+
+def rand_red():
+    """ Generates random shades from (bright) red to yellow """
+    shade1 = random.randint(125,255)
+    shade2 = random.randint(0,255)
+    shade3 = 0
+    if shade1 < shade2:
+        shade1 = 255
+    return (shade1, shade2, shade3)
+
+
     
 
 #main program begins
@@ -89,6 +100,14 @@ while True:
         #draw the bomb
         pygame.draw.circle(screen, black, (bomb_x-4,int(bomb_y)-4), 30, 0)
         pygame.draw.circle(screen, yellow, (bomb_x,int(bomb_y)), 30, 0)
+
+        #draw bomb fuse
+        color       = rand_red()
+        width       = 3
+        start_angle = 0
+        stop_angle  = math.pi/2
+        Rect        = ((bomb_x-72,bomb_y-70), (75,75))
+        pygame.draw.arc(screen, color, Rect, start_angle, stop_angle, width)
 
         #set basket position
         pos_x = mouse_x
