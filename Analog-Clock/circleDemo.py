@@ -1,7 +1,7 @@
 # Circle Demo
 # Chapter 5
 
-import random, math, pygame
+import random, math, pygame, sys
 from pygame.locals import *
 
 #main program begins
