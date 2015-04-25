@@ -50,6 +50,7 @@ radius = 250
 angle = 0.0
 pos = Point(0,0)
 old_pos = Point(0,0)
+circumference = 2*math.pi*radius
 speed = 0.1
 
 #repeating loop
@@ -92,10 +93,12 @@ while True:
     y = 300+pos.y-height//2
     screen.blit(scratch_ship, (x,y))
 
+    #status
     print_text(font, 0, 0, "Orbit: " + "{:.0f}".format(angle))
     print_text(font, 0, 20, "Rotation: " + "{:.2f}".format(rangle))
     print_text(font, 0, 40, "Position: " + str(pos))
     print_text(font, 0, 60, "Old Pos: " + str(old_pos))
+    print_text(font, 0, 80, "Orbit Distance: " + str(int(circumference)))
     
     pygame.display.update()
     
