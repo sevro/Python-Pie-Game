@@ -50,6 +50,7 @@ radius = 250
 angle = 0.0
 pos = Point(0,0)
 old_pos = Point(0,0)
+speed = 0.1
 
 #repeating loop
 while True:
@@ -59,6 +60,12 @@ while True:
     keys = pygame.key.get_pressed()
     if keys[K_ESCAPE]:
         sys.exit()
+    if keys[K_w]:
+        if speed < 2.249:
+            speed += 0.001
+    if keys[K_s]:
+        if speed > 0.001:
+            speed -= 0.001
 
     #draw background
     screen.blit(space, (0,0))
@@ -68,7 +75,7 @@ while True:
     screen.blit(planet, (400-width/2,300-height/2))
 
     #move the ship
-    angle = wrap_angle(angle - 0.1)
+    angle = wrap_angle(angle - speed)
     pos.x = math.sin( math.radians(angle) ) * radius
     pos.y = math.cos( math.radians(angle) ) * radius
 
