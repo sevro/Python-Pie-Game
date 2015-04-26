@@ -130,7 +130,6 @@ while True:
             if (event.key == pygame.K_SPACE) and player_jumping == False:
                 player_jumping = True
                 time_elapsed = (pygame.time.get_ticks() - time_down)/1000.0
-                print(time_elapsed)
                 if time_elapsed < .49:
                     jump_vel = -8.0
                 else:
