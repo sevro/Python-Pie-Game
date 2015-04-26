@@ -113,6 +113,7 @@ you_win = False
 player_jumping = False
 jump_vel = 0.0
 player_start_y = player.Y
+score = 0
 
 #repeating loop
 while True:
@@ -143,6 +144,7 @@ while True:
     if pygame.sprite.collide_rect(arrow, dragon):
         reset_arrow()
         dragon.X -= 10
+        score += 10
 
     #did dragon eat the player?
     if pygame.sprite.collide_rect(player, dragon):
@@ -174,6 +176,7 @@ while True:
     group.draw(screen)
 
     print_text(font, 350, 560, "Press SPACE to jump!")
+    print_text(font, 10, 10, "Score: " + str(score))
 
     if game_over:
         print_text(font, 360, 100, "G A M E   O V E R")
@@ -184,5 +187,3 @@ while True:
 
     
     pygame.display.update()
-    
-
