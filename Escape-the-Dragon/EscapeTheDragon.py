@@ -80,6 +80,7 @@ screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Escape The Dragon Game")
 font = pygame.font.Font(None, 18)
 framerate = pygame.time.Clock()
+pygame.key.set_repeat() #disable multiple KEYDOWN events form holding a key
 
 #load bitmaps
 bg = pygame.image.load("background.png").convert_alpha()
@@ -122,12 +123,21 @@ while True:
 
     for event in pygame.event.get():
         if event.type == QUIT: sys.exit()
+        elif event.type == KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                time_down = pygame.time.get_ticks()
+        elif event.type == KEYUP:
+            if (event.key == pygame.K_SPACE) and player_jumping == False:
+                player_jumping = True
+                time_elapsed = (pygame.time.get_ticks() - time_down)/1000.0
+                print(time_elapsed)
+                if time_elapsed < .49:
+                    jump_vel = -8.0
+                else:
+                    jump_vel = -12.0
+
     keys = pygame.key.get_pressed()
     if keys[K_ESCAPE]: sys.exit()
-    elif keys[K_SPACE]:
-        if not player_jumping:
-            player_jumping = True
-            jump_vel = -8.0
 
 
     #update the arrow
