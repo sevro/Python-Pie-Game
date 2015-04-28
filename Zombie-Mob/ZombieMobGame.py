@@ -61,9 +61,11 @@ health.load("data/health.png", 32, 32, 1)
 health.position = 400,300
 health_group.add(health)
 
+#Init
 game_over = False
 player_moving = False
 player_health = 100
+last_z = pygame.time.get_ticks()
 
 
 #repeating loop
@@ -118,6 +120,16 @@ while True:
             elif player.X > 700: player.X = 700
             if player.Y < 0: player.Y = 0
             elif player.Y > 500: player.Y = 500
+        
+        #add new zombie every 10 seconds
+        current = pygame.time.get_ticks()
+        if ticks2sec(current - last_z) >= 1:
+            zombie = MySprite()
+            zombie.load("data/zombieWalk.png", 96, 96, 8)
+            zombie.position = random.randint(0,700), random.randint(0,500)
+            zombie.direction = random.randint(0,3) * 2
+            zombie_group.add(zombie)
+            last_z = current
 
         #update zombie sprites
         zombie_group.update(ticks, 50)
@@ -182,5 +194,3 @@ while True:
         print_text(font, 300, 100, "G A M E   O V E R")
     
     pygame.display.update()
-    
-

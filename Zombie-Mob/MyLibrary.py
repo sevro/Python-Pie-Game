@@ -10,6 +10,7 @@ def print_text(font, x, y, text, color=(255,255,255)):
     screen = pygame.display.get_surface() #req'd when function moved into MyLibrary
     screen.blit(imgText, (x,y))
 
+
 # MySprite class extends pygame.sprite.Sprite
 class MySprite(pygame.sprite.Sprite):
     
@@ -75,6 +76,7 @@ class MySprite(pygame.sprite.Sprite):
                "," + str(self.frame_height) + "," + str(self.columns) + \
                "," + str(self.rect)
 
+
 #Point class
 class Point(object):
     def __init__(self, x, y):
@@ -94,3 +96,13 @@ class Point(object):
     def __str__(self):
         return "{X:" + "{:.0f}".format(self.__x) + \
             ",Y:" + "{:.0f}".format(self.__y) + "}"
+
+
+#Convert ticks to seconds: 1 tick == 0.001 sec
+def ticks2sec(ticks):
+    return ticks * 0.0001
+
+
+#Convert seconds to ticks: 1 sec == 100 ticks 
+def sec2ticks(seconds):
+    return seconds * 1000
