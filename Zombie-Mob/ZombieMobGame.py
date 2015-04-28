@@ -151,7 +151,7 @@ while True:
                 reverse_direction(z)
             
 
-        #check for collision with zombies
+        #check for player collision with zombies
         attacker = None
         attacker = pygame.sprite.spritecollideany(player, zombie_group)
         if attacker != None:
@@ -163,16 +163,39 @@ while True:
             else:
                 attacker = None
 
-        #update the health drop
-        health_group.update(ticks, 50)
+        #check for zombie collision with zombies
+        for z in zombie_group:
+            bump = None
+            bump = pygame.sprite.spritecollideany(z, zombie_group)
+            if bump != None:
+                #we got a hit, now do a more precise check
+                if pygame.sprite.collide_rect_ratio(0.5)(z,bump):
+                    if z.X < bump.X:   
+                        z.X -= 10
+                        reverse_direction(bump)
+                        reverse_direction(z)
+                    elif z.X > bump.X: 
+                        z.X += 10
+                        reverse_direction(z)
+                        reverse_direction(bump)
+                else:
+                    z = None
 
         #check for collision with health
-        if pygame.sprite.collide_rect_ratio(0.5)(player,health):
-            player_health += 30
-            if player_health > 100: player_health = 100
-            health.X = random.randint(0,700)
-            health.Y = random.randint(0,500)
-        
+        for health in health_group:
+            hp = None
+            hp = pygame.sprite.spritecollideany(player, health_group)
+            if hp != None:
+                if pygame.sprite.collide_rect_ratio(0.5)(player, health):
+                    player_health += 30
+                    if player_health > 100: player_health = 100
+                    health.X = random.randint(0,700)
+                    health.Y = random.randint(0,500)
+                else:
+                    hp = None
+
+        #update the health drop
+        health_group.update(ticks, 50)
 
     #is player dead?
     if player_health <= 0:
