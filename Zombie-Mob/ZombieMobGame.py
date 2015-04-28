@@ -55,11 +55,12 @@ for n in range(0, 10):
     zombie.direction = random.randint(0,3) * 2
     zombie_group.add(zombie)
 
-#create heath sprite
-health = MySprite()
-health.load("data/health.png", 32, 32, 1)
-health.position = 400,300
-health_group.add(health)
+#create health sprite
+for h in range(0, 2):
+    health = MySprite()
+    health.load("data/health.png", 32, 32, 1)
+    health.position = random.randint(50,650), random.randint(50,450)
+    health_group.add(health)
 
 #Init
 game_over = False
@@ -123,7 +124,7 @@ while True:
         
         #add new zombie every 10 seconds
         current = pygame.time.get_ticks()
-        if ticks2sec(current - last_z) >= 1:
+        if ticks2sec(current - last_z) >= .5:
             zombie = MySprite()
             zombie.load("data/zombieWalk.png", 96, 96, 8)
             zombie.position = random.randint(0,700), random.randint(0,500)
