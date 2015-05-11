@@ -94,12 +94,14 @@ def load_level():
     
 #this function initializes the game
 def game_init():
-    global screen, font, timer
+    global screen, font, timer, background
     global paddle_group, block_group, ball_group
     global paddle, block_image, block, ball
 
     pygame.init()
     screen = pygame.display.set_mode((800,600))
+    background = pygame.Surface((screen.get_rect().width, screen.get_rect().height))
+    background = background.convert() # Convert to a form where alpha can be changed
     pygame.display.set_caption("Block Breaker Game")
     font = pygame.font.Font(None, 36)
     pygame.mouse.set_visible(False)
@@ -221,6 +223,7 @@ def collision_ball_blocks():
 game_init()
 game_over = False
 waiting = True
+alpha = 255
 score = 0
 lives = 3
 level = 0
@@ -255,8 +258,16 @@ while True:
         collision_ball_paddle()
         collision_ball_blocks()
 
+    #cycle alpha
+    if alpha > 0:
+        alpha -=1
+    else:
+        alpha = 255
+
     #do drawing
     screen.fill((50,50,100))
+    background.fill((255,255,255))
+    background.set_alpha(alpha)
     block_group.draw(screen)
     ball_group.draw(screen)
     paddle_group.draw(screen)
