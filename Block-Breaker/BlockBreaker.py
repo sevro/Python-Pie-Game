@@ -94,14 +94,12 @@ def load_level():
     
 #this function initializes the game
 def game_init():
-    global screen, font, timer, background
+    global screen, font, timer 
     global paddle_group, block_group, ball_group
     global paddle, block_image, block, ball
 
     pygame.init()
     screen = pygame.display.set_mode((800,600))
-    background = pygame.Surface((screen.get_rect().width, screen.get_rect().height))
-    background = background.convert() # Convert to a form where alpha can be changed
     pygame.display.set_caption("Block Breaker Game")
     font = pygame.font.Font(None, 36)
     pygame.mouse.set_visible(False)
@@ -228,6 +226,11 @@ score = 0
 lives = 3
 level = 0
 load_level()
+background = pygame.Surface(screen.get_size())
+foreground = pygame.Surface(screen.get_size())
+background = background.convert()
+background.fill((255,255,255))
+foreground.fill((0,0,0))
 
 #repeating loop
 while True:
@@ -265,18 +268,16 @@ while True:
         alpha = 255
 
     #do drawing
-    screen.fill((50,50,100))
-    background.fill((255,255,255))
     background.set_alpha(alpha)
-    block_group.draw(screen)
-    ball_group.draw(screen)
-    paddle_group.draw(screen)
     print_text(font, 0, 0, "SCORE " + str(score))
     print_text(font, 200, 0, "LEVEL " + str(level+1))
     print_text(font, 400, 0, "BLOCKS " + str(len(block_group)))
     print_text(font, 670, 0, "BALLS " + str(lives))
+    screen.blit(foreground,(0,0))
+    screen.blit(background,(0,0))
+    block_group.draw(screen)
+    ball_group.draw(screen)
+    paddle_group.draw(screen)
     if game_over:
         print_text(font, 300, 380, "G A M E   O V E R")
     pygame.display.update()
-    
-
