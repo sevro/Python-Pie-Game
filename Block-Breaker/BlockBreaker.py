@@ -4,6 +4,7 @@
 import sys, time, random, math, pygame
 from pygame.locals import *
 from MyLibrary import *
+from random import randrange
 
 levels = (
 (8,8,0,0,8,8,0,0,8,8,0,0, 
@@ -147,7 +148,7 @@ def move_paddle():
 
 #this function resets the ball's velocity
 def reset_ball():
-    ball.velocity = Point(4.5, -7.0)
+    ball.velocity = Point(randrange(5,8), -(randrange(5,9)))
 
 #this function moves the ball
 def move_ball():
@@ -177,15 +178,16 @@ def move_ball():
 #this function test for collision between ball and paddle
 def collision_ball_paddle():
     if pygame.sprite.collide_rect(ball, paddle):
+        reset_ball()
         ball.velocity.y = -abs(ball.velocity.y)
         bx = ball.X + 8
         by = ball.Y + 8
         px = paddle.X + paddle.frame_width/2
         py = paddle.Y + paddle.frame_height/2
         if bx < px: #left side of paddle?
-            ball.velocity.x = -abs(ball.velocity.x)
+            ball.velocity.x = -abs(ball.velocity.x) - randrange(0,3)
         else: #right side of paddle?
-            ball.velocity.x = abs(ball.velocity.x)
+            ball.velocity.x = abs(ball.velocity.x) + randrange(0,3)
 
 #this function tests for collision between ball and blocks
 def collision_ball_blocks():
@@ -269,15 +271,15 @@ while True:
 
     #do drawing
     background.set_alpha(alpha)
-    print_text(font, 0, 0, "SCORE " + str(score))
-    print_text(font, 200, 0, "LEVEL " + str(level+1))
-    print_text(font, 400, 0, "BLOCKS " + str(len(block_group)))
-    print_text(font, 670, 0, "BALLS " + str(lives))
     screen.blit(foreground,(0,0))
     screen.blit(background,(0,0))
     block_group.draw(screen)
     ball_group.draw(screen)
     paddle_group.draw(screen)
+    print_text(font, 0, 0, "SCORE " + str(score))
+    print_text(font, 200, 0, "LEVEL " + str(level+1))
+    print_text(font, 400, 0, "BLOCKS " + str(len(block_group)))
+    print_text(font, 670, 0, "BALLS " + str(lives))
     if game_over:
         print_text(font, 300, 380, "G A M E   O V E R")
     pygame.display.update()
