@@ -97,6 +97,8 @@ game_init()
 audio_init()
 game_over = False
 last_time = 0
+last_diff = 5000
+difficulty = 0
 
 #repeating loop
 while True:
@@ -123,9 +125,14 @@ while True:
             oil_hit = oil
             if b1 > 0: oil_hit.fade()
             break
-
+    
+    #difficulty modifyer
+    if difficulty < 400:
+        if ticks > last_diff:
+            difficulty += 50
+            last_diff += 5000
     #add new oil sprite once per second
-    if ticks > last_time + 1000:
+    if ticks > last_time + (1000 - difficulty):
         add_oil()
         last_time = ticks
 
