@@ -19,6 +19,7 @@ class OilSprite(MySprite):
         MySprite.update(self, timing, rate)
 
     def fade(self):
+        global score
         r2 = self.radius//2
         color = self.image.get_at((r2,r2))
         if color.a > 5:
@@ -27,11 +28,12 @@ class OilSprite(MySprite):
         else:
             oil_group.remove(self)
             play_sound(clean_oil)
+            score += 10
         
 
 #this function initializes the game
 def game_init():
-    global screen, backbuffer, font, timer, oil_group, cursor, cursor_group
+    global screen, backbuffer, font, timer, oil_group, cursor, cursor_group, score
 
     pygame.init()
     screen = pygame.display.set_mode((800,600))
@@ -39,6 +41,7 @@ def game_init():
     font = pygame.font.Font(None, 36)
     pygame.mouse.set_visible(False)
     timer = pygame.time.Clock()
+    score = 0
 
     #create a drawing surface
     backbuffer = pygame.Surface((800,600))
@@ -93,12 +96,14 @@ def add_oil(X,Y):
     
 
 #main program begins
+global score 
 game_init()
 audio_init()
 game_over = False
 last_time = 0
 last_diff = 5000
 difficulty = 0
+oil_spots = 0
 
 #repeating loop
 while True:
@@ -140,10 +145,13 @@ while True:
                 B = oil.Y
                 drip = random.randint(1,10)
                 oil.Y += drip
+                #Add one oil "smear"
                 if drip > 9:
                     add_oil(A,B)
+                    oil_spots += 1
                     break
         add_oil(random.randint(0,760), random.randint(0,560))
+        oil_spots += 1
         last_time = ticks
 
 
@@ -159,8 +167,15 @@ while True:
     cursor_group.update(ticks)
     cursor_group.draw(screen)
 
+    print_text(font, 640, 0, "SCORE: {0}".format(score))
     if oil_hit: print_text(font, 0, 0, "OIL SPLOTCH - CLEAN IT!")
     else: print_text(font, 0, 0, "CLEAN")
+    if oil_spots >= 220:
+        print_text(font, 200, 200, "G A M E   O V E R")
+        time.sleep(15)
+        break
+    elif score >= 1000:
+        print_text(font, 200, 200, "YOU WIN!!!")
+        time.sleep(15)
+        break
     pygame.display.update()
-    
-
