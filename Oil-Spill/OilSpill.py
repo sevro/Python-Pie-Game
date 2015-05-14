@@ -75,7 +75,7 @@ def play_sound(sound):
     channel.set_volume(0.5)
     channel.play(sound)
 
-def add_oil():
+def add_oil(X,Y):
     global oil_group, new_oil
 
     oil = OilSprite()
@@ -86,8 +86,8 @@ def add_oil():
     r2 = oil.radius//2
     pygame.draw.circle(image, oil_color, (r2,r2), r2, 0)
     oil.set_image(image)
-    oil.X = random.randint(0,760)
-    oil.Y = random.randint(0,560)
+    oil.X = X
+    oil.Y = Y
     oil_group.add(oil)
 #    play_sound(new_oil)
     
@@ -133,7 +133,17 @@ while True:
             last_diff += 5000
     #add new oil sprite once per second
     if ticks > last_time + (1000 - difficulty):
-        add_oil()
+        #drip effect
+        for oil in oil_group:
+            if oil.Y < 550:
+                A = oil.X
+                B = oil.Y
+                drip = random.randint(1,10)
+                oil.Y += drip
+                if drip > 9:
+                    add_oil(A,B)
+                    break
+        add_oil(random.randint(0,760), random.randint(0,560))
         last_time = ticks
 
 
