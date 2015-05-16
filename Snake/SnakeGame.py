@@ -18,11 +18,12 @@ class Food(MySprite):
         self.Y = random.randint(0,17) * 32
         
 class SnakeSegment(MySprite):
-    def __init__(self,color=(20,200,20)):
+    def __init__(self):
+        colors = ((242,252,202),(62,190,155),(237,228,47),(255,139,89),(252,76,76))
         MySprite.__init__(self)
         image = pygame.Surface((32,32)).convert_alpha()
         image.fill((255,255,255,0))
-        pygame.draw.circle(image, color, (16,16), 16, 0)
+        pygame.draw.circle(image, random.choice(colors), (16,16), 16, 0)
         self.set_image(image)
         MySprite.update(self, 0, 30) #create frame image
 
@@ -30,7 +31,7 @@ class Snake():
     def __init__(self):
         self.velocity = Point(-1,0)
         self.old_time = 0
-        head = SnakeSegment((50,250,50))
+        head = SnakeSegment()
         head.X = 12*32
         head.Y = 9*32
         self.segments = list()
