@@ -9,21 +9,21 @@ from MyLibrary import *
 class Food(MySprite):
     def __init__(self):
         MySprite.__init__(self)
-        image = pygame.Surface((32,32)).convert_alpha()
+        image = pygame.Surface((16,16)).convert_alpha()
         image.fill((255,255,255,0))
-        pygame.draw.circle(image, (250,250,50), (16,16), 16, 0)
+        pygame.draw.circle(image, (250,250,50), (8,8), 8, 0)
         self.set_image(image)
         MySprite.update(self, 0, 30) #create frame image
-        self.X = random.randint(0,23) * 32
-        self.Y = random.randint(0,17) * 32
+        self.X = random.randint(0,23) * 16
+        self.Y = random.randint(0,17) * 16 
         
 class SnakeSegment(MySprite):
     def __init__(self):
         colors = ((242,252,202),(62,190,155),(237,228,47),(255,139,89),(252,76,76))
         MySprite.__init__(self)
-        image = pygame.Surface((32,32)).convert_alpha()
+        image = pygame.Surface((16,16)).convert_alpha()
         image.fill((255,255,255,0))
-        pygame.draw.circle(image, random.choice(colors), (16,16), 16, 0)
+        pygame.draw.circle(image, random.choice(colors), (8,8), 8, 0)
         self.set_image(image)
         MySprite.update(self, 0, 30) #create frame image
 
@@ -32,8 +32,8 @@ class Snake():
         self.velocity = Point(-1,0)
         self.old_time = 0
         head = SnakeSegment()
-        head.X = 12*32
-        head.Y = 9*32
+        head.X = 12*16
+        head.Y = 9*16
         self.segments = list()
         self.segments.append(head)
         self.add_segment()
@@ -48,8 +48,8 @@ class Snake():
                 self.segments[n].X = self.segments[n-1].X
                 self.segments[n].Y = self.segments[n-1].Y
             #move snake head
-            self.segments[0].X += self.velocity.x * 32
-            self.segments[0].Y += self.velocity.y * 32
+            self.segments[0].X += self.velocity.x * 16
+            self.segments[0].Y += self.velocity.y * 16
 
     def draw(self,surface):
         for segment in self.segments: 
@@ -59,10 +59,10 @@ class Snake():
         last = len(self.segments)-1
         segment = SnakeSegment()
         start = Point(0,0)
-        if self.velocity.x < 0: start.x = 32
-        elif self.velocity.x > 0: start.x = -32
-        if self.velocity.y < 0: start.y = 32
-        elif self.velocity.y > 0: start.y = -32
+        if self.velocity.x < 0: start.x = 16
+        elif self.velocity.x > 0: start.x = -16
+        if self.velocity.y < 0: start.y = 16
+        elif self.velocity.y > 0: start.y = -16
         segment.X = self.segments[last].X + start.x
         segment.Y = self.segments[last].Y + start.y
         self.segments.append(segment)
@@ -71,8 +71,8 @@ class Snake():
 #this function gets the snake's current direction
 def get_current_direction():
     global head_x,head_y
-    first_segment_x = snake.segments[1].X//32
-    first_segment_y = snake.segments[1].Y//32
+    first_segment_x = snake.segments[1].X//16
+    first_segment_y = snake.segments[1].Y//16
     if head_x-1 == first_segment_x:   return "right"
     elif head_x+1 == first_segment_x: return "left"
     elif head_y-1 == first_segment_y: return "down"
@@ -84,7 +84,7 @@ def get_food_direction():
     global head_x,head_y
     food = Point(0,0)
     for obj in food_group:
-        food = Point(obj.X//32,obj.Y//32)
+        food = Point(obj.X//16,obj.Y//16)
     if head_x < food.x:       return "right"
     elif head_x > food.x:     return "left"
     elif head_x == food.x:
@@ -120,7 +120,7 @@ def game_init():
     global screen, backbuffer, font, timer, snake, food_group
 
     pygame.init()
-    screen = pygame.display.set_mode((24*32,18*32))
+    screen = pygame.display.set_mode((50*16,50*16))
     pygame.display.set_caption("Snake Game")
     font = pygame.font.Font(None, 30)
     timer = pygame.time.Clock()
@@ -195,8 +195,8 @@ while True:
                 game_over = True
 
         #check screen boundary
-        head_x = snake.segments[0].X//32
-        head_y = snake.segments[0].Y//32
+        head_x = snake.segments[0].X//16
+        head_y = snake.segments[0].Y//16
         if head_x < 0 or head_x > 24 or head_y < 0 or head_y > 18:
             game_over = True
 
@@ -212,8 +212,8 @@ while True:
 
     if not game_over:
         print_text(font, 0, 0, "Length " + str(len(snake.segments)))
-        print_text(font, 0, 20, "Position " + str(snake.segments[0].X//32) + \
-                   "," + str(snake.segments[0].Y//32))
+        print_text(font, 0, 20, "Position " + str(snake.segments[0].X//16) + \
+                   "," + str(snake.segments[0].Y//16))
     else:
         print_text(font, 0, 0, "GAME OVER")
 
