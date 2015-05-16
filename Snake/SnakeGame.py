@@ -137,7 +137,9 @@ def game_init():
     #create food
     food_group = pygame.sprite.Group()
     food = Food()
-    food_group.add(food)
+    food2 = Food()
+    food3 = Food()
+    food_group.add(food, food2, food3)
 
 
 #main program begins
