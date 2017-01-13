@@ -3,4 +3,4 @@ Solutions to the challenge questions from “More Python Programming for the Abs
 
 ## Note
 
-Has been moved to my primary account [located on GitLab](https://gitlab.com/datenstrom/python-pyGame)
+Has been moved to my primary account [located on GitLab](https://gitlab.com/datenstrom/Python-Pie-Game)
